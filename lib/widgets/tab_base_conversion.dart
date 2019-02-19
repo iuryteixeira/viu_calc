@@ -1,35 +1,66 @@
 import 'package:flutter/material.dart';
 
-class BaseConversionTab extends StatefulWidget {
+class TabBaseConversion extends StatefulWidget {
   @override
-  BaseConversionTabState createState() {
-    return BaseConversionTabState();
+  TabBaseConversionState createState() {
+    return TabBaseConversionState();
   }
 }
 
-class BaseConversionTabState extends State<BaseConversionTab> {
+class TabBaseConversionState extends State<TabBaseConversion> {
   final TextEditingController _binController = TextEditingController();
   final TextEditingController _octController = TextEditingController();
   final TextEditingController _decController = TextEditingController();
   final TextEditingController _hexController = TextEditingController();
 
   bool _binFieldIsValid = true;
+  bool _octFieldIsValid = true;
   bool _decFieldIsValid = true;
+  bool _hexFieldIsValid = true;
+
+  _clearAllFields() {
+    setState(() {
+      _binController.text = '';
+      _decController.text = '';
+      _octController.text = '';
+      _hexController.text = '';
+    });
+  }
 
   _executeByBase2(value) {
     if (value.toString().isNotEmpty) {
-      int binValue = int.tryParse(value, radix: 2);
-      int intValue = int.tryParse(value);
+      int decNumber = int.tryParse(value, radix: 2);
       setState(() {
-        _octController.text = intValue.toRadixString(8);
-        _decController.text = intValue.toRadixString(10);
-        _hexController.text = intValue.toRadixString(16);
-
+        _decController.text = decNumber.toString();
+        _octController.text = decNumber.toRadixString(8);
+        _hexController.text = decNumber.toRadixString(16).toUpperCase();
         _binFieldIsValid = true;
       });
     } else {
       setState(() {
+        _decController.text = '';
+        _octController.text = '';
+        _hexController.text = '';
         _binFieldIsValid = false;
+      });
+    }
+  }
+
+  _executeByBase8(value) {
+    if (value.toString().isNotEmpty) {
+      int decNumber = int.tryParse(value, radix: 8);
+      setState(() {
+        _binController.text = decNumber.toRadixString(2);
+        _decController.text = decNumber.toString();
+        _hexController.text = decNumber.toRadixString(16).toUpperCase();
+        _octFieldIsValid = true;
+      });
+    } else {
+      setState(() {
+        _decController.text = '';
+        _octController.text = '';
+        _hexController.text = '';
+        _octFieldIsValid = false;
       });
     }
   }
@@ -40,13 +71,34 @@ class BaseConversionTabState extends State<BaseConversionTab> {
       setState(() {
         _binController.text = intValue.toRadixString(2);
         _octController.text = intValue.toRadixString(8);
-        _hexController.text = intValue.toRadixString(16);
-
+        _hexController.text = intValue.toRadixString(16).toUpperCase();
         _decFieldIsValid = true;
       });
     } else {
       setState(() {
+        _binController.text = '';
+        _octController.text = '';
+        _hexController.text = '';
         _decFieldIsValid = false;
+      });
+    }
+  }
+
+  _executeByBase16(value) {
+    if (value.toString().isNotEmpty) {
+      int decNumber = int.tryParse(value, radix: 16);
+      setState(() {
+        _binController.text = decNumber.toRadixString(2);
+        _decController.text = decNumber.toString();
+        _octController.text = decNumber.toRadixString(8).toUpperCase();
+        _hexFieldIsValid = true;
+      });
+    } else {
+      setState(() {
+        _binController.text = '';
+        _decController.text = '';
+        _octController.text = '';
+        _hexFieldIsValid = false;
       });
     }
   }
@@ -58,69 +110,99 @@ class BaseConversionTabState extends State<BaseConversionTab> {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         TextField(
+          maxLines: 1,
           controller: _binController,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
           decoration: InputDecoration(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.create),
             hintText: 'insira aqui um valor em binário',
             labelText: 'Valor em Base 2',
             errorText:
                 _binFieldIsValid ? null : 'Valor não é um binário válido',
           ),
-          autofocus: true,
           onChanged: (value) => _executeByBase2(value),
           keyboardType: TextInputType.number,
         ),
         TextField(
+          maxLines: 1,
           controller: _octController,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
           decoration: InputDecoration(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.create),
             hintText: 'insira aqui um valor em octa',
             labelText: 'Valor em Base 8',
+            errorText: _octFieldIsValid ? null : 'Valor não é um octal válido',
           ),
-          autofocus: true,
+          onChanged: (value) => _executeByBase8(value),
           keyboardType: TextInputType.number,
         ),
         TextField(
+          maxLines: 1,
           controller: _decController,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
           decoration: InputDecoration(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.create),
             hintText: 'insira aqui um valor em decimal',
             labelText: 'Valor em Base 10',
             errorText:
                 _decFieldIsValid ? null : 'Valor não é um decimal válido',
           ),
           onChanged: (value) => _executeByBase10(value),
-          autofocus: true,
           keyboardType: TextInputType.number,
         ),
         TextField(
+          maxLines: 1,
           controller: _hexController,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
           decoration: InputDecoration(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.create),
             hintText: 'insira aqui um valor em hexa',
             labelText: 'Valor em Base 16',
+            errorText:
+                _hexFieldIsValid ? null : 'Valor não é um hexadecimal válido',
           ),
-          autofocus: true,
+          onChanged: (value) => _executeByBase16(value),
           keyboardType: TextInputType.text,
         ),
         Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            padding: const EdgeInsets.symmetric(vertical: 70.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                RaisedButton(
+                MaterialButton(
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  height: 50.0,
+                  minWidth: 150.0,
                   onPressed: () {
+                    _clearAllFields();
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Campos limpos :)')));
                   },
-                  child: Text('Limpar'),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.clear_all),
+                      Text('Limpar'),
+                    ],
+                  ),
                 ),
-
               ],
             ))
       ],

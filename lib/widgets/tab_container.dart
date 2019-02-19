@@ -12,7 +12,7 @@ class TabContainer extends StatelessWidget{
             title: Text('BitViu'),
             bottom: TabBar(
                 tabs: <Widget>[
-                  Tab(text: 'Conversão de Bases',),
+                  Tab(text: 'Conversão de Bases', icon: Icon(Icons.layers)),
                   Tab(text: 'Aritimética Binária', icon: Icon(Icons.control_point)),
                   Tab(icon: Icon(Icons.directions_bike)),
                 ]
@@ -20,7 +20,7 @@ class TabContainer extends StatelessWidget{
           ),
           body: TabBarView(
               children: <Widget>[
-                BaseConversionTab(),
+                TabBaseConversion(),
                 Icon(Icons.directions_transit),
                 Icon(Icons.directions_bike),
               ]),
