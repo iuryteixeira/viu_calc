@@ -105,107 +105,124 @@ class TabBaseConversionState extends State<TabBaseConversion> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        TextField(
-          maxLines: 1,
-          controller: _binController,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            icon: Icon(Icons.create),
-            hintText: 'insira aqui um valor em binário',
-            labelText: 'Valor em Base 2',
-            errorText:
-                _binFieldIsValid ? null : 'Valor não é um binário válido',
-          ),
-          onChanged: (value) => _executeByBase2(value),
-          keyboardType: TextInputType.number,
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 20.0,
         ),
-        TextField(
-          maxLines: 1,
-          controller: _octController,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            icon: Icon(Icons.create),
-            hintText: 'insira aqui um valor em octa',
-            labelText: 'Valor em Base 8',
-            errorText: _octFieldIsValid ? null : 'Valor não é um octal válido',
-          ),
-          onChanged: (value) => _executeByBase8(value),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          maxLines: 1,
-          controller: _decController,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            icon: Icon(Icons.create),
-            hintText: 'insira aqui um valor em decimal',
-            labelText: 'Valor em Base 10',
-            errorText:
-                _decFieldIsValid ? null : 'Valor não é um decimal válido',
-          ),
-          onChanged: (value) => _executeByBase10(value),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          maxLines: 1,
-          controller: _hexController,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            icon: Icon(Icons.create),
-            hintText: 'insira aqui um valor em hexa',
-            labelText: 'Valor em Base 16',
-            errorText:
-                _hexFieldIsValid ? null : 'Valor não é um hexadecimal válido',
-          ),
-          onChanged: (value) => _executeByBase16(value),
-          keyboardType: TextInputType.text,
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(vertical: 70.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                MaterialButton(
-                  color: Theme.of(context).primaryColor,
-                  textColor: Colors.white,
-                  height: 50.0,
-                  minWidth: 150.0,
-                  onPressed: () {
-                    _clearAllFields();
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Campos limpos :)')));
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.clear_all),
-                      Text('Limpar'),
-                    ],
-                  ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 7.0),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Conversão de Bases',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 20.0,
                 ),
-              ],
-            ))
-      ],
+              ),
+            ),
+            TextField(
+              maxLines: 1,
+              controller: _binController,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+              decoration: InputDecoration(
+                icon: Icon(Icons.create),
+                hintText: 'insira aqui um valor em binário',
+                labelText: 'Valor em Base 2',
+                errorText:
+                    _binFieldIsValid ? null : 'Valor não é um binário válido',
+              ),
+              onChanged: (value) => _executeByBase2(value),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              maxLines: 1,
+              controller: _octController,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+              decoration: InputDecoration(
+                icon: Icon(Icons.create),
+                hintText: 'insira aqui um valor em octa',
+                labelText: 'Valor em Base 8',
+                errorText:
+                    _octFieldIsValid ? null : 'Valor não é um octal válido',
+              ),
+              onChanged: (value) => _executeByBase8(value),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              maxLines: 1,
+              controller: _decController,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+              decoration: InputDecoration(
+                icon: Icon(Icons.create),
+                hintText: 'insira aqui um valor em decimal',
+                labelText: 'Valor em Base 10',
+                errorText:
+                    _decFieldIsValid ? null : 'Valor não é um decimal válido',
+              ),
+              onChanged: (value) => _executeByBase10(value),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              maxLines: 1,
+              controller: _hexController,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+              decoration: InputDecoration(
+                icon: Icon(Icons.create),
+                hintText: 'insira aqui um valor em hexa',
+                labelText: 'Valor em Base 16',
+                errorText: _hexFieldIsValid
+                    ? null
+                    : 'Valor não é um hexadecimal válido',
+              ),
+              onChanged: (value) => _executeByBase16(value),
+              keyboardType: TextInputType.text,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 50.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    MaterialButton(
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      height: 50.0,
+                      minWidth: 150.0,
+                      onPressed: () {
+                        _clearAllFields();
+                        Scaffold.of(context).showSnackBar(
+                            SnackBar(content: Text('Campos limpos :)')));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.clear_all),
+                          Text('Limpar'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ))
+          ],
+        ),
+      ),
     );
   }
 }
