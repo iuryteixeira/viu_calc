@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tab_base_conversion.dart';
+import 'tab_arithmetic.dart';
 
 class TabContainer extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class TabContainer extends StatelessWidget {
           ),
           body: TabBarView(children: <Widget>[
             TabBaseConversion(),
-            Icon(Icons.directions_transit),
+            TabArithmetic(),
             Icon(Icons.directions_bike),
           ]),
         ));

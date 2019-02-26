@@ -104,13 +104,23 @@ class TabBaseConversionState extends State<TabBaseConversion> {
   }
 
   @override
+  void dispose() {
+    _binController.dispose();
+    _octController.dispose();
+    _decController.dispose();
+    _hexController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: 20.0,
+          minHeight: 30.0,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(vertical: 7.0),
